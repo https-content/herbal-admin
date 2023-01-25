@@ -20,7 +20,7 @@ type AuthContextType = {
   user?: User
   signIn: (data: SignInData) => Promise<void>
   isLoading: boolean
-  error?: string  
+  error?: string
 }
 
 export const AuthContext = createContext({} as AuthContextType)
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: any) {
       api.defaults.headers['Authorization'] = `Bearer ${token}`
 
       setUser(user)
-      Router.push('/')
+      Router.push('/dashboard')
       setLoading(false)
     } catch (err: any) {
       if (err?.data) {
@@ -77,7 +77,9 @@ export function AuthProvider({ children }: any) {
   }
 
   function getUserByToken(token: string) {
-    recoverUserInformation(token).then((user: User) => setUser(user)).catch((err) => console.log(err))
+    recoverUserInformation(token)
+      .then((user: User) => setUser(user))
+      .catch((err) => console.log(err))
   }
 
   return (
